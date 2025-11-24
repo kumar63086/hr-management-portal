@@ -1,4 +1,4 @@
-// src/db/mongoose.ts
+
 import mongoose from 'mongoose';
 import { env } from '../config/env';
 

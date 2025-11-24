@@ -1,4 +1,4 @@
-// src/server.ts
+
 import app from './app';
 import { connectDb } from './db/mongoose';
 import { env } from './config/env';

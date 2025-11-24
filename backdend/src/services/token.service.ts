@@ -1,4 +1,4 @@
-// src/services/token.service.ts
+
 import { signAccessToken, signRefreshToken } from '../config/jwt';
 
 export const issueTokens = (userId: string, role: 'Admin' | 'Editor' | 'Viewer') => {

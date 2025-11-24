@@ -10,7 +10,7 @@ export interface IEmployee extends Document {
   role: 'Admin' | 'Editor' | 'Viewer';
   isActive: boolean;
   skills: string[];
-  availableSlots: string[]; // ISO future dates
+  availableSlots: string[]; 
   address: {
     street: string;
     city: string;

@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const urlRegex = /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-./?%&=]*)?$/;
-const phoneRegex = /^[+()\-\s\d]{7,20}$/; // permissive, capped at 20
+const phoneRegex = /^[+()\-\s\d]{7,20}$/; 
 
 export const RoleEnum = z.enum(['Admin', 'Editor', 'Viewer']);
 
