@@ -1,0 +1,49 @@
+/* Page Not Found */
+
+.page-not-found-con {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+}
+
+.page-not-found-con h1 {
+  font-size: 11.3vw;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.page-not-found-con h2 {
+  font-size: 2.89vw;
+  margin-bottom: 2vw;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.page-not-right-con {
+  text-align: center;
+  width: 25%;
+  margin: 0px 4vw;
+}
+
+@media (max-width:991px) {
+  .page-not-found-con {
+    flex-direction: column;
+    padding: 20px;
+    justify-content: flex-start;
+  }
+
+  .page-not-right-con {
+    width: 100%;
+    margin-top: 30px;
+  }
+
+  .page-not-found-con h2 {
+    font-size: 20px;
+  }
+
+  .page-not-found-con h1 {
+    font-size: 58px;
+  }
+}

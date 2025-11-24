@@ -1,0 +1,98 @@
+/* Container */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f3f4f6;
+  padding: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* Form */
+.login-form {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  border: 1px solid #e5e7eb;
+}
+
+/* Heading */
+.login-form h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 24px;
+}
+
+/* Labels */
+.login-form label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #374151;
+}
+
+/* Inputs */
+.login-form input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  font-size: 16px;
+  transition: 0.2s all;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+}
+
+/* Error messages */
+.error-message {
+  color: #ef4444;
+  font-size: 14px;
+  margin-top: -8px;
+  margin-bottom: 8px;
+}
+
+/* Submit button */
+.login-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s background-color;
+}
+
+.login-form button:hover {
+  background-color: #2563eb;
+}
+
+.login-form button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+/* Forgot password link */
+.forgot-password {
+  display: block;
+  text-align: right;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: #3b82f6;
+  text-decoration: underline;
+  cursor: pointer;
+}
