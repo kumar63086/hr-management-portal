@@ -73,13 +73,26 @@ authRouter.post('/refresh', async (req, res) => {
 });
 
 // Logout (clear refresh cookie)
-authRouter.post('/logout', (req, res) => {
+authRouter.get('/logout', (req, res) => {
   res.clearCookie('refresh_token', {
     httpOnly: true,
     secure: env.COOKIE_SECURE,
     sameSite: 'strict',
     domain: env.COOKIE_DOMAIN,
-    path: '/api/auth',
+    path: '/',
   });
   res.status(200).json({ message: 'Logged out' });
+});
+
+authRouter.get("/users",  async (req, res) => {
+  try {
+    const users = await User.find({}, "id name username email role isActive createdAt");
+
+    res.json({
+      count: users.length,
+      users,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch users" });
+  }
 });

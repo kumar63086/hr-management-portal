@@ -1,16 +1,19 @@
-
+ 
+ 
 import { Router } from 'express';
 import { authMiddleware } from '../middleware/auth.middleware';
 import { roleMiddleware } from '../middleware/roleMiddleware';
 import { Employee } from '../model/Employee';
 import { asyncHandler } from '../utils/asyncErrorHandler';
 import { Request, Response, NextFunction } from "express";
+
 export const employeeRouter = Router();
+
 
 employeeRouter.use(authMiddleware);
 
 // List employees with pagination, search, filter, sort
-employeeRouter.get('/me', roleMiddleware('read'),asyncHandler(async (req:Request, res:Response) => {
+employeeRouter.get('/', roleMiddleware('read'),asyncHandler(async (req:Request, res:Response) => {
   const {
     page = '1',
     limit = '10',
@@ -61,11 +64,14 @@ employeeRouter.get('/me', roleMiddleware('read'),asyncHandler(async (req:Request
   }
 }));
 // View one
+
 employeeRouter.get('/:id', roleMiddleware('read'), async (req, res) => {
-  const emp = await Employee.findById(req.params.id).lean();
+  const id = req.params.id.trim();  // <-- remove extra spaces or newlines
+  const emp = await Employee.findById(id).lean();
   if (!emp) return res.status(404).json({ error: 'Not found' });
   res.json(emp);
 });
+
 
 // Update (Admin + Editor)
 employeeRouter.put('/:id', roleMiddleware('update'), async (req, res) => {
@@ -80,3 +86,13 @@ employeeRouter.delete('/:id', roleMiddleware('delete'), async (req, res) => {
   if (!emp) return res.status(404).json({ error: 'Not found' });
   res.status(204).send();
 });
+
+// Create Employee
+employeeRouter.post(
+  '/create',
+  roleMiddleware('create'),
+  asyncHandler(async (req: Request, res: Response) => {
+    const employee = await Employee.create(req.body);
+    res.status(201).json({ message: "Employee created", employee });
+  })
+);
