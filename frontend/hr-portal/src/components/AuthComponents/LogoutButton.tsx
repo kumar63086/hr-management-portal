@@ -20,7 +20,7 @@ const EmployeeLogoutButton: React.FC = () => {
   useEffect(() => {
     if (isLoggedOut) {
       // Redirect to login page after logout success
-      navigate("/");
+      navigate("/register");
     }
   }, [isLoggedOut, navigate]);
 
