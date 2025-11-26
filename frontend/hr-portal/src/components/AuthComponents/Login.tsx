@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import "./LoginForm.css";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "../../store/configureStore";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../store/configureStore";
 import { loginUser } from "../../store/actions/loginaction";
+import { toast } from "react-toastify";
 
 type LoginFormInputs = {
   email: string;
@@ -16,15 +17,33 @@ const LoginForm: React.FC = () => {
     useForm<LoginFormInputs>();
 
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  //  Select login state from Redux
+  const { user, accessToken, error, loading } = useSelector(
+    (state: RootState) => state.login
+  );
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
     dispatch(
       loginUser({
-        usernameOrEmail: data.email,   // FIXED
-        password: data.password
+        usernameOrEmail: data.email,
+        password: data.password,
       })
     );
+    
   };
+
+  //  React to login success/failure
+  useEffect(() => {
+    if (user && accessToken) {
+      toast.success("Login successful!");
+      navigate("/dashboard");
+    }
+    if (error) {
+      toast.error(error);
+    }
+  }, [user, accessToken, error, navigate]);
 
   return (
     <div className="login-container">
@@ -34,9 +53,7 @@ const LoginForm: React.FC = () => {
         <label>Email</label>
         <input
           type="email"
-          {...register("email", {
-            required: "Email is required",
-          })}
+          {...register("email", { required: "Email is required" })}
           placeholder="Enter your email"
         />
         {errors.email && <p className="error-message">{errors.email.message}</p>}
@@ -44,9 +61,7 @@ const LoginForm: React.FC = () => {
         <label>Password</label>
         <input
           type="password"
-          {...register("password", {
-            required: "Password is required",
-          })}
+          {...register("password", { required: "Password is required" })}
           placeholder="Enter your password"
         />
         {errors.password && (
@@ -55,11 +70,13 @@ const LoginForm: React.FC = () => {
 
         <span className="forgot-password">
           Don’t have an account?{" "}
-          <Link to="/" className="text-blue-600 underline">Register</Link>
+          <Link to="/register" className="text-blue-600 underline">
+            Register
+          </Link>
         </span>
 
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Logging in..." : "Login"}
+        <button type="submit" disabled={isSubmitting || loading}>
+          {isSubmitting || loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

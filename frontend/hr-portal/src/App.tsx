@@ -1,25 +1,41 @@
+import { Routes, Route } from "react-router-dom";
+import Dashboard from "../src/components/modules/pages/Dashboard/Ddashboard";
 
-import './App.css'
-import LoginForm from './components/AuthComponents/Login';
-import RegistrationForm from './components/AuthComponents/Register'
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
-import PageNotFound from './components/Common/PageNotFound';
-import Ddashboard from './components/modules/Ddashboard';
-function App() {
-  
-
+import Unauthorized from "../src/components/Common/PageNotFound";
+import Login from "../src/components/AuthComponents/Login";
+import { RoleProtectedRoute } from "../src/routes/RoleProtectedRoute";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import RegistrationForm from "../src/components/AuthComponents/Register"
+import EmployeeForm from "./components/modules/pages/Employees/EmployeeForm";
+import PageNotFound from "../src/components/Common/PageNotFound";
+function AppRoutes() {
   return (
-    <Router >
-      <Routes>
+    <>
+    <Routes >
+      <Route path="/" element={<Login />} />
+       <Route path="/register" element={<RegistrationForm />} />
+      <Route path="/unauthorized" element={<Unauthorized />} />
+      <Route path="/emloyeeForm" element={<EmployeeForm />} />
+      <Route path="*" element={<PageNotFound />} />
+   
+      {/* Any logged-in user can access Dashboard */}
+      <Route
+        path="/dashboard"
+        element={
+          <RoleProtectedRoute allowedRoles={["Admin", "Editor", "Viewer"]}>
+            <Dashboard />
+          </RoleProtectedRoute>
+        }
+      />
 
-         <Route path="/" element={<RegistrationForm />} />
-          <Route path="login" element={<LoginForm/>} />
-          <Route path="*" element={<PageNotFound />} />
-          <Route path='dashboard' element ={<Ddashboard/>}/>
-      </Routes>
-
-    </Router>
-  )
+     
+      
+    </Routes>
+  <ToastContainer position="top-center" autoClose={1000} />
+    </>
+  );
 }
 
-export default App
+
+export default AppRoutes;

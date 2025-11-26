@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import "./RegistrationForm.css";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "../../store/configureStore";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../store/configureStore";
 import { registerUser } from "../../store/actions/Resiteraction";
-
+import { toast } from "react-toastify";
 type RegisterFormInputs = {
   name: string;
   username: string;
@@ -22,29 +22,37 @@ const RegistrationForm: React.FC = () => {
   } = useForm<RegisterFormInputs>();
 
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  // Select registration state from Redux
+  const { success, error } = useSelector((s: RootState) => s.registration);
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = (data) => {
-    console.log("Form submitted:", data);
-    // Dispatch Redux action to trigger saga
     dispatch(registerUser(data));
   };
+
+  // Navigate to login on success
+  useEffect(() => {
+    if (success) {
+
+       toast.success("Registration successful!");
+      navigate("/");
+    }
+  }, [success, navigate]);
 
   return (
     <div className="registration-container">
       <form onSubmit={handleSubmit(onSubmit)} className="registration-form">
         <h2>Register User</h2>
 
-        {/* Name */}
-        <label>Name</label>
+        <label>First Name</label>
         <input {...register("name", { required: "Name is required" })} />
         {errors.name && <p className="error-message">{errors.name.message}</p>}
 
-        {/* Username */}
-        <label>Username</label>
+        <label>Last Name</label>
         <input {...register("username", { required: "Username is required" })} />
         {errors.username && <p className="error-message">{errors.username.message}</p>}
 
-        {/* Email */}
         <label>Email</label>
         <input
           type="email"
@@ -55,7 +63,6 @@ const RegistrationForm: React.FC = () => {
         />
         {errors.email && <p className="error-message">{errors.email.message}</p>}
 
-        {/* Password */}
         <label>Password</label>
         <input
           type="password"
@@ -66,7 +73,6 @@ const RegistrationForm: React.FC = () => {
         />
         {errors.password && <p className="error-message">{errors.password.message}</p>}
 
-        {/* Role */}
         <label>Role</label>
         <select {...register("role", { required: "Role is required" })}>
           <option value="">Select role</option>
@@ -76,14 +82,15 @@ const RegistrationForm: React.FC = () => {
         </select>
         {errors.role && <p className="error-message">{errors.role.message}</p>}
 
-        {/* Submit */}
         <button type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Registering..." : "Register"}
         </button>
 
+        {error && <p className="error-message">{error}</p>}
+
         <span className="forgot-password">
           Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 underline">
+          <Link to="/" className="text-blue-600 underline">
             Login
           </Link>
         </span>

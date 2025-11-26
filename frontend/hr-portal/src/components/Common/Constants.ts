@@ -1,1 +1,1 @@
-export const accessToken = 'app.atr'
+export const accessToken = "accessToken"

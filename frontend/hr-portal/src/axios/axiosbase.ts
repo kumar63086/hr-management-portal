@@ -6,14 +6,16 @@ import { accessToken } from "../components/Common/Constants";
 // Generic GET request
 export async function getData<T = any>(url: string): Promise<AxiosResponse<T>> {
   const token = Cookies.get(accessToken);
+ //console.log("🔑 FRONTEND TOKEN:", token);
   const config: AxiosRequestConfig = {
     headers: {
-      Authorization: token ? `Bearer ${token}` : "",
+      Authorization: token ? `Bearer ${token}` : undefined,
     },
-    withCredentials: true,
-  };
+    withCredentials: true,  };
+
   return axios.get<T>(url, config);
 }
+
 
 // Generic POST request
 export async function postData<T = any, D = any>(
@@ -44,6 +46,7 @@ export async function putData<T = any, D = any>(
   };
   return axios.put<T>(url, data, config);
 }
+
 
 // Generic DELETE request
 export async function deleteData<T = any>(

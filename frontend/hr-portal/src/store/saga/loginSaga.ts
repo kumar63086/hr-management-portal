@@ -1,19 +1,23 @@
+import Cookies from "js-cookie";
 import { call, put } from "redux-saga/effects";
 import * as actions from "../actions/actionTypes";
 import { loginApi } from "../../utils/Api";
-import type { LoginPayload } from "../actions/loginaction";
 
-export function* loginSaga(action: { type: string; payload: LoginPayload }) {
+export function* loginSaga(action: any) {
   try {
     const response = yield call(loginApi, action.payload);
 
+    const { user, accessToken, refreshToken } = response.data;
+
+    // ✔ Save access token in cookies
+    Cookies.set("accessToken", accessToken, {
+      expires: 1,   // 1 day
+      secure: false,
+    });
+
     yield put({
       type: actions.LOGIN_SUCCEEDED,
-      payload: {
-        user: response.data.user,
-        accessToken: response.data.accessToken,
-        refreshToken: response.data.refreshToken,
-      },
+      payload: { user, accessToken, refreshToken },
     });
   } catch (error: any) {
     yield put({
